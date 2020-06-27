@@ -3,10 +3,12 @@ package com.sda.javapoz24.hib;
 import com.sda.javapoz24.hib.database.StudentDao;
 import com.sda.javapoz24.hib.model.Gender;
 import com.sda.javapoz24.hib.model.Student;
+import lombok.extern.log4j.Log4j;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Log4j
 public class Main {
     public static void main(String[] args) {
         StudentDao dao = new StudentDao();
@@ -32,9 +34,8 @@ public class Main {
             } else if (command.startsWith("list")) {    // list
                 List<Student> studentList = dao.getAll();
 
-                System.out.println("List:");
-                studentList.forEach(System.out::println);
-                System.out.println("");
+                log.info("List:");
+                studentList.forEach(log::info);
             } else if (command.startsWith("delete")) {  // delete 1
                 String[] words = command.split(" ");
 
