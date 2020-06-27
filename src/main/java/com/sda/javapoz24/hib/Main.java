@@ -31,10 +31,14 @@ public class Main {
                 dao.insertOrUpdate(student);
             } else if (command.startsWith("list")) {    // list
                 List<Student> studentList = dao.getAll();
+
                 System.out.println("List:");
                 studentList.forEach(System.out::println);
                 System.out.println("");
             } else if (command.startsWith("delete")) {  // delete 1
+                String[] words = command.split(" ");
+
+                System.out.println("Success: " + dao.deleteStudent(Long.valueOf(words[1])));
             } else if (command.startsWith("modify")) {  // modify mariusz kowalski 30 true MALE 1
                 String[] words = command.split(" ");
                 Student student = Student.builder()
