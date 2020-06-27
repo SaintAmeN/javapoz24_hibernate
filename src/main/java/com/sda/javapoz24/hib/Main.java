@@ -2,6 +2,8 @@ package com.sda.javapoz24.hib;
 
 import com.sda.javapoz24.hib.database.HibernateUtil;
 import com.sda.javapoz24.hib.database.StudentDao;
+import com.sda.javapoz24.hib.model.Gender;
+import com.sda.javapoz24.hib.model.Student;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
@@ -20,7 +22,15 @@ public class Main {
 
             if (command.startsWith("insert")) {         // insert Paweł Gaweł 20 true MALE
                 String[] words = command.split(" ");
+                Student student = Student.builder()
+                        .firstName(words[1])
+                        .lastName(words[2])
+                        .age(Integer.parseInt(words[3]))
+                        .awarded(Boolean.parseBoolean(words[4]))
+                        .gender(Gender.valueOf(words[5].toUpperCase()))
+                        .build();
 
+                dao.insert(student);
             } else if (command.startsWith("list")) {    // list
             } else if (command.startsWith("delete")) {  // delete 1
             } else if (command.startsWith("modify")) {  // modify mariusz kowalski 30 true MALE 1
