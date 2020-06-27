@@ -20,5 +20,7 @@
         <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
 
+        <!--Wspominamy wszystkie klasy którymi chcemy zarządzać w bazie danych-->
+        <mapping class="com.sda.javapoz24.hib.model.Student"/>
     </session-factory>
 </hibernate-configuration>
