@@ -7,7 +7,8 @@ import org.hibernate.Transaction;
 import javax.persistence.RollbackException;
 
 public class StudentDao {
-    public void insert(Student student) {
+
+    public void insertOrUpdate(Student student) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // Baza transakcyjna jest ACID.
