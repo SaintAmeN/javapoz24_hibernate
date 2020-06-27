@@ -1,4 +1,4 @@
-package com.sda.javapoz24.hib;
+package com.sda.javapoz24.hib.database;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
