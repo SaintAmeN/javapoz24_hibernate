@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString(of = {"firstName", "lastName"})
+@ToString//(of = {"firstName", "lastName"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
