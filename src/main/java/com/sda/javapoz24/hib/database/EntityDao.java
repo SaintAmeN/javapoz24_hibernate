@@ -1,6 +1,7 @@
 package com.sda.javapoz24.hib.database;
 
 import com.sda.javapoz24.hib.model.IBaseEntity;
+import com.sda.javapoz24.hib.model.Student;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -69,6 +70,31 @@ public class EntityDao<T extends IBaseEntity> {
             he.printStackTrace();
         }
         return list;
+    }
+
+    public boolean deleteStudent(Long id, Class<T> tClass) {
+        Optional<T> optionalEntity = findById(id, tClass);
+        if (optionalEntity.isPresent()) {
+            T entity = optionalEntity.get();
+
+            Transaction transaction = null;
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                transaction = session.beginTransaction();
+                session.delete(entity);                                                //(przekazujemy do usunięcia)
+                transaction.commit();
+
+                return true;
+            } catch (IllegalStateException | RollbackException ise) {
+                System.err.println("Błąd usuwania rekordu.");
+                ise.printStackTrace();
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+            }
+        } else {
+            System.err.println("Nie udało się odnaleźć rekordu");
+        }
+        return false;
     }
 
 //    public List<StudentShortInfo> getAllShortInfo(Class<T> tClass) {
