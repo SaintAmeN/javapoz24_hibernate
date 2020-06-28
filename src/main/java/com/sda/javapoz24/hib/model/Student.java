@@ -1,11 +1,12 @@
 package com.sda.javapoz24.hib.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity // adnotacja znajdująca się nad każdą klasą która ma swoją tablę w bazie.
 @Data
@@ -42,4 +43,7 @@ public class Student {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
+    @OneToMany(mappedBy = "student")
+    @EqualsAndHashCode.Exclude
+    private Set<Grade> gradeSet = new HashSet<>();
 }
