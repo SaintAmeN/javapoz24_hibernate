@@ -1,6 +1,7 @@
 package com.sda.javapoz24.hib.database;
 
 import com.sda.javapoz24.hib.model.Student;
+import lombok.extern.log4j.Log4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Log4j
 public class StudentDao {
 
     public void insertOrUpdate(Student student) {
@@ -78,6 +80,8 @@ public class StudentDao {
 
             // wynik jest listą
             List<Student> results = session.createQuery(query).list();
+//            log.info("List:");
+//            results.forEach(log::info); // TO STRING wypisuje tabele relacyjną
 
             list.addAll(results); // dodaje wszystkie wyniki.
 

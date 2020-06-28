@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity // adnotacja znajdująca się nad każdą klasą która ma swoją tablę w bazie.
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString(of = {"firstName", "lastName"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,7 +46,10 @@ public class Student implements IBaseEntity{
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     private Set<Grade> gradeSet = new HashSet<>();
+
+    // Nie powinniśmy tworzyć relacji (więcej niż jednej) w której relacja oparta jest o kolekcję List
+    // Hibernate nie pozwoli zdefiniować dwóch relacji List, szczególnie z typem EAGER
 }

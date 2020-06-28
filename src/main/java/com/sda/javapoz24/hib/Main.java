@@ -36,10 +36,7 @@ public class Main {
 
                 dao.insertOrUpdate(student);
             } else if (command.startsWith("list")) {    // list
-                List<Student> studentList = dao.getAll();
-
-                log.info("List:");
-                studentList.forEach(log::info);
+                handleListStudents();
             } else if (command.startsWith("delete")) {  // delete 1
                 String[] words = command.split(" ");
 
@@ -61,6 +58,14 @@ public class Main {
             }
 
         } while (!command.equalsIgnoreCase("quit"));
+    }
+
+    private static void handleListStudents() {
+        EntityDao<Student> studentEntityDao = new EntityDao<>();
+        List<Student> studentList = studentEntityDao.getAll(Student.class);
+
+        log.info("List:");
+        studentList.forEach(log::info);
     }
 
     private static void handleAddGradeToStudent(String command) {
