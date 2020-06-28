@@ -1,0 +1,1 @@
+SELECT id,age,awarded,firstName,lastName,gender,(select avg(grade.grade) from `grade` where `grade`.student_id=`student`.id) as average FROM javapoz24_hibernate_students.student;

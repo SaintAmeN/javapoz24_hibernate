@@ -1,6 +1,7 @@
 package com.sda.javapoz24.hib.model;
 
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -52,4 +53,9 @@ public class Student implements IBaseEntity{
 
     // Nie powinniśmy tworzyć relacji (więcej niż jednej) w której relacja oparta jest o kolekcję List
     // Hibernate nie pozwoli zdefiniować dwóch relacji List, szczególnie z typem EAGER
+
+    // WAŻNE ! UMIEŚCIĆ W NAWIASIE
+    // WAŻNE ! Typ obiektowy (Double) a nie 'double'
+    @Formula(value = "(select avg(grade.grade) from grade where grade.student_id=id)")
+    private Double average;
 }

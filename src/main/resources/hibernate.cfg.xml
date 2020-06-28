@@ -18,7 +18,7 @@
         <!--create-drop - uruchom connector, stwórz tabele i kolumny, a po zakończeniu aplikacji dropuj wszystkiego -->
         <!--validate - weryfikuje poprawność bazy -->
         <property name="hbm2ddl.auto">update</property>
-        <property name="show_sql">false</property>
+        <property name="show_sql">true</property>
 
         <!--Wspominamy wszystkie klasy którymi chcemy zarządzać w bazie danych-->
         <mapping class="com.sda.javapoz24.hib.model.Student"/>
