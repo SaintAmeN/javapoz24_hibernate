@@ -36,10 +36,28 @@ public class Main {
             }else if(command.startsWith("gradedelete")){ // gradedelete 1 (usuń ocenę o identyfikatorze 1)
                 handleGradeDelete(command);
             }else if(command.startsWith("gradeupdate")){ // gradeupdate 1 4.5 ENGLISH (aktualizuj ocenę o idenyfikatorze 1)
-
+                handleGradeUpdate(command);
             }
 
         } while (!command.equalsIgnoreCase("quit"));
+    }
+
+    private static void handleGradeUpdate(String command) {
+        EntityDao<Grade> gradeEntityDao = new EntityDao<>();
+        String[] words = command.split(" ");
+
+        Optional<Grade> gradeOptional = gradeEntityDao.findById(Long.parseLong(words[1]), Grade.class);
+        if(gradeOptional.isPresent()) {
+            Grade grade = gradeOptional.get();
+
+            grade.setGrade(Double.parseDouble(words[2]));
+            grade.setSubject(ClassSubject.valueOf(words[3]));
+
+            gradeEntityDao.insertOrUpdate(grade);
+            log.info("Update complete.");
+        }else{
+            log.info("Grade not found.");
+        }
     }
 
     private static void handleGradeDelete(String command) {
