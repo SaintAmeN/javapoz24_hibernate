@@ -1,8 +1,6 @@
 package com.sda.javapoz24.hib.database;
 
 import com.sda.javapoz24.hib.model.IBaseEntity;
-import com.sda.javapoz24.hib.model.Student;
-import com.sda.javapoz24.hib.model.StudentShortInfo;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
