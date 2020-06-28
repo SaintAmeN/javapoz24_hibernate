@@ -5,7 +5,12 @@ import com.sda.javapoz24.hib.model.Student;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.Optional;
 
 // Repository
 public class EntityDao<T extends IBaseEntity> {
@@ -26,5 +31,23 @@ public class EntityDao<T extends IBaseEntity> {
                 transaction.rollback();
             }
         }
+    }
+
+    public Optional<T> findById(Long id, Class<T> tClass) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<T> query = cb.createQuery(tClass);
+            Root<T> table = query.from(tClass);
+
+            query.select(table).where(cb.equal(table.get("id"), id));
+
+            T student = session.createQuery(query).getSingleResult();
+
+            return Optional.ofNullable(student);
+        } catch (PersistenceException he) {
+            System.err.println("Listing error.");
+            he.printStackTrace();
+        }
+        return Optional.empty();
     }
 }

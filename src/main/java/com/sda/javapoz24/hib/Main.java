@@ -1,5 +1,6 @@
 package com.sda.javapoz24.hib;
 
+import com.sda.javapoz24.hib.database.EntityDao;
 import com.sda.javapoz24.hib.database.StudentDao;
 import com.sda.javapoz24.hib.model.ClassSubject;
 import com.sda.javapoz24.hib.model.Gender;
@@ -56,16 +57,18 @@ public class Main {
 
                 dao.insertOrUpdate(student);
             } else if (command.startsWith("gradeadd")){ // gradeadd 1 5.0 ENGLISH
-                handleAddGradeToStudent(dao, command);
+                handleAddGradeToStudent(command);
             }
 
         } while (!command.equalsIgnoreCase("quit"));
     }
 
-    private static void handleAddGradeToStudent(StudentDao dao, String command) {
+    private static void handleAddGradeToStudent(String command) {
         String[] words = command.split(" ");
+        EntityDao<Grade> gradeEntityDao = new EntityDao<>();
+        EntityDao<Student> studentEntityDao = new EntityDao<>();
 
-        Optional<Student> studentOptional = dao.findById(Long.parseLong(words[1]));
+        Optional<Student> studentOptional = studentEntityDao.findById(Long.parseLong(words[1]), Student.class);
         if(studentOptional.isPresent()) {
             Student student = studentOptional.get();
 
@@ -75,8 +78,7 @@ public class Main {
                     .student(student)
                     .build();
 
-            // TODO: przekazujemy do DAO do zapisu
+            gradeEntityDao.insertOrUpdate(grade);
         }
-
     }
 }
