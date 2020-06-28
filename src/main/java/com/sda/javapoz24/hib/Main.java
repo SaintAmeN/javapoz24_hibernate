@@ -1,7 +1,6 @@
 package com.sda.javapoz24.hib;
 
 import com.sda.javapoz24.hib.database.EntityDao;
-import com.sda.javapoz24.hib.database.StudentDao;
 import com.sda.javapoz24.hib.model.ClassSubject;
 import com.sda.javapoz24.hib.model.Gender;
 import com.sda.javapoz24.hib.model.Grade;
@@ -15,9 +14,7 @@ import java.util.Scanner;
 @Log4j
 public class Main {
     public static void main(String[] args) {
-        StudentDao dao = new StudentDao();
         Scanner scanner = new Scanner(System.in);
-
         String command;
 
         do {
@@ -25,39 +22,68 @@ public class Main {
             command = scanner.nextLine();
 
             if (command.startsWith("insert")) {         // insert Paweł Gaweł 20 true MALE
-                String[] words = command.split(" ");
-                Student student = Student.builder()
-                        .firstName(words[1])
-                        .lastName(words[2])
-                        .age(Integer.parseInt(words[3]))
-                        .awarded(Boolean.parseBoolean(words[4]))
-                        .gender(Gender.valueOf(words[5].toUpperCase()))
-                        .build();
-
-                dao.insertOrUpdate(student);
+                handleStudentAdd(command);
             } else if (command.startsWith("list")) {    // list
                 handleListStudents();
             } else if (command.startsWith("delete")) {  // delete 1
-                String[] words = command.split(" ");
-
-                System.out.println("Success: " + dao.deleteStudent(Long.valueOf(words[1])));
+                handleDeleteStudent(command);
             } else if (command.startsWith("modify")) {  // modify mariusz kowalski 30 true MALE 1
-                String[] words = command.split(" ");
-                Student student = Student.builder()
-                        .firstName(words[1])
-                        .lastName(words[2])
-                        .age(Integer.parseInt(words[3]))
-                        .awarded(Boolean.parseBoolean(words[4]))
-                        .gender(Gender.valueOf(words[5].toUpperCase()))
-                        .id(Long.parseLong(words[6]))
-                        .build();
-
-                dao.insertOrUpdate(student);
-            } else if (command.startsWith("gradeadd")){ // gradeadd 1 5.0 ENGLISH
+                handleStudentUpdate(command);
+            } else if (command.startsWith("gradeadd")){ // gradeadd 1 5.0 ENGLISH (dodaj ocenę studentowi o id 1)
                 handleAddGradeToStudent(command);
+            } else if(command.startsWith("gradelist")){ // gradelist 1 (wypisz oceny studenta o id 1)
+
+            }else if(command.startsWith("gradedelete")){ // gradedelete 1 (usuń ocenę o identyfikatorze 1)
+                handleGradeDelete(command);
+            }else if(command.startsWith("gradeupdate")){ // gradeupdate 1 4.5 ENGLISH (aktualizuj ocenę o idenyfikatorze 1)
+
             }
 
         } while (!command.equalsIgnoreCase("quit"));
+    }
+
+    private static void handleGradeDelete(String command) {
+        EntityDao<Grade> gradeEntityDao = new EntityDao<>();
+
+        String[] words = command.split(" ");
+        System.out.println("Success: " + gradeEntityDao.delete(Long.valueOf(words[1]), Grade.class));
+    }
+
+    private static void handleStudentUpdate(String command) {
+        EntityDao<Student> studentEntityDao = new EntityDao<>();
+        String[] words = command.split(" ");
+        Student student = Student.builder()
+                .firstName(words[1])
+                .lastName(words[2])
+                .age(Integer.parseInt(words[3]))
+                .awarded(Boolean.parseBoolean(words[4]))
+                .gender(Gender.valueOf(words[5].toUpperCase()))
+                .id(Long.parseLong(words[6]))
+                .build();
+
+        studentEntityDao.insertOrUpdate(student);
+    }
+
+    private static void handleDeleteStudent(String command) {
+        EntityDao<Student> studentEntityDao = new EntityDao<>();
+        String[] words = command.split(" ");
+
+        System.out.println("Success: " + studentEntityDao.delete(Long.valueOf(words[1]), Student.class));
+    }
+
+    private static void handleStudentAdd(String command) {
+        EntityDao<Student> studentEntityDao = new EntityDao<>();
+
+        String[] words = command.split(" ");
+        Student student = Student.builder()
+                .firstName(words[1])
+                .lastName(words[2])
+                .age(Integer.parseInt(words[3]))
+                .awarded(Boolean.parseBoolean(words[4]))
+                .gender(Gender.valueOf(words[5].toUpperCase()))
+                .build();
+
+        studentEntityDao.insertOrUpdate(student);
     }
 
     private static void handleListStudents() {

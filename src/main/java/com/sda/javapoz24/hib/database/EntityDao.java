@@ -72,7 +72,7 @@ public class EntityDao<T extends IBaseEntity> {
         return list;
     }
 
-    public boolean deleteStudent(Long id, Class<T> tClass) {
+    public boolean delete(Long id, Class<T> tClass) {
         Optional<T> optionalEntity = findById(id, tClass);
         if (optionalEntity.isPresent()) {
             T entity = optionalEntity.get();
