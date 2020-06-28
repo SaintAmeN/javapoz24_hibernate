@@ -22,5 +22,6 @@
 
         <!--Wspominamy wszystkie klasy którymi chcemy zarządzać w bazie danych-->
         <mapping class="com.sda.javapoz24.hib.model.Student"/>
+        <mapping class="com.sda.javapoz24.hib.model.Grade"/>
     </session-factory>
 </hibernate-configuration>
