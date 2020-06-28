@@ -9,10 +9,10 @@ public class MainLombokProblem {
         Student student = new Student();
         student.setFirstName("Marian");
 
-        Grade grade = new Grade(null, ClassSubject.ENGLISH, 5.0 , student);
+        Grade grade = new Grade(null, ClassSubject.ENGLISH, 5.0, null, null , student);
         student.getGradeSet().add(grade);
 
-        grade = new Grade(null, ClassSubject.CHEMISTRY, 4.0 , student);
+        grade = new Grade(null, ClassSubject.CHEMISTRY, 4.0 , null, null, student);
         student.getGradeSet().add(grade);
 
         System.out.println(student);
