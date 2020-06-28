@@ -13,7 +13,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student {
+public class Student implements IBaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment

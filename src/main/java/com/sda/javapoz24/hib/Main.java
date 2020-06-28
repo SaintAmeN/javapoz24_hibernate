@@ -1,11 +1,14 @@
 package com.sda.javapoz24.hib;
 
 import com.sda.javapoz24.hib.database.StudentDao;
+import com.sda.javapoz24.hib.model.ClassSubject;
 import com.sda.javapoz24.hib.model.Gender;
+import com.sda.javapoz24.hib.model.Grade;
 import com.sda.javapoz24.hib.model.Student;
 import lombok.extern.log4j.Log4j;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 @Log4j
@@ -52,8 +55,28 @@ public class Main {
                         .build();
 
                 dao.insertOrUpdate(student);
+            } else if (command.startsWith("gradeadd")){ // gradeadd 1 5.0 ENGLISH
+                handleAddGradeToStudent(dao, command);
             }
 
         } while (!command.equalsIgnoreCase("quit"));
+    }
+
+    private static void handleAddGradeToStudent(StudentDao dao, String command) {
+        String[] words = command.split(" ");
+
+        Optional<Student> studentOptional = dao.findById(Long.parseLong(words[1]));
+        if(studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+
+            Grade grade = Grade.builder()
+                    .grade(Double.parseDouble(words[2]))
+                    .subject(ClassSubject.valueOf(words[3]))
+                    .student(student)
+                    .build();
+
+            // TODO: przekazujemy do DAO do zapisu
+        }
+
     }
 }
