@@ -29,17 +29,32 @@ public class Main {
                 handleDeleteStudent(command);
             } else if (command.startsWith("modify")) {  // modify mariusz kowalski 30 true MALE 1
                 handleStudentUpdate(command);
-            } else if (command.startsWith("gradeadd")){ // gradeadd 1 5.0 ENGLISH (dodaj ocenę studentowi o id 1)
+            } else if (command.startsWith("gradeadd")) { // gradeadd 1 5.0 ENGLISH (dodaj ocenę studentowi o id 1)
                 handleAddGradeToStudent(command);
-            } else if(command.startsWith("gradelist")){ // gradelist 1 (wypisz oceny studenta o id 1)
-
-            }else if(command.startsWith("gradedelete")){ // gradedelete 1 (usuń ocenę o identyfikatorze 1)
+            } else if (command.startsWith("gradelist")) { // gradelist 1 (wypisz oceny studenta o id 1)
+                handlePrintStudentGrades(command);
+            } else if (command.startsWith("gradedelete")) { // gradedelete 1 (usuń ocenę o identyfikatorze 1)
                 handleGradeDelete(command);
-            }else if(command.startsWith("gradeupdate")){ // gradeupdate 1 4.5 ENGLISH (aktualizuj ocenę o idenyfikatorze 1)
+            } else if (command.startsWith("gradeupdate")) { // gradeupdate 1 4.5 ENGLISH (aktualizuj ocenę o idenyfikatorze 1)
                 handleGradeUpdate(command);
             }
 
         } while (!command.equalsIgnoreCase("quit"));
+    }
+
+    private static void handlePrintStudentGrades(String command) {
+        EntityDao<Student> studentEntityDao = new EntityDao<>();
+        String[] words = command.split(" ");
+
+        Optional<Student> studentOptional = studentEntityDao.findById(Long.parseLong(words[1]), Student.class);
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+
+            log.info("List: ");
+            student.getGradeSet().forEach(log::info);
+        } else {
+            log.info("Student not found.");
+        }
     }
 
     private static void handleGradeUpdate(String command) {
@@ -47,7 +62,7 @@ public class Main {
         String[] words = command.split(" ");
 
         Optional<Grade> gradeOptional = gradeEntityDao.findById(Long.parseLong(words[1]), Grade.class);
-        if(gradeOptional.isPresent()) {
+        if (gradeOptional.isPresent()) {
             Grade grade = gradeOptional.get();
 
             grade.setGrade(Double.parseDouble(words[2]));
@@ -55,7 +70,7 @@ public class Main {
 
             gradeEntityDao.insertOrUpdate(grade);
             log.info("Update complete.");
-        }else{
+        } else {
             log.info("Grade not found.");
         }
     }
@@ -118,7 +133,7 @@ public class Main {
         EntityDao<Student> studentEntityDao = new EntityDao<>();
 
         Optional<Student> studentOptional = studentEntityDao.findById(Long.parseLong(words[1]), Student.class);
-        if(studentOptional.isPresent()) {
+        if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
 
             Grade grade = Grade.builder()
